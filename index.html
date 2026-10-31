@@ -6,6 +6,11 @@
 <title>Agradoot Vidyaniketan — Computer &amp; Skill Development Unit</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+<!-- FIREBASE SDKs -->
+<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+
 <style>
 *{box-sizing:border-box}
 body{margin:0;font-family:system-ui,Segoe UI,Roboto,Arial,sans-serif;background:#eef2f8;color:#0f172a}
@@ -96,8 +101,30 @@ th{background:#f8fafc;font-size:12px;text-transform:uppercase;color:#475569}
 
 <script>
 /* ============================================================
-   AGRADOOT VIDYANIKETAN — LMS v5
+   AGRADOOT VIDYANIKETAN — LMS v5 with Firebase
    ============================================================ */
+
+// --- 1. FIREBASE CONFIGURATION (YAHAN APNA CODE PASTE KAREIN) ---
+const firebaseConfig = {
+  apiKey: "YOUR_API_KEY_HERE",
+  authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
+  projectId: "YOUR_PROJECT_ID",
+  storageBucket: "YOUR_PROJECT_ID.appspot.com",
+  messagingSenderId: "YOUR_SENDER_ID",
+  appId: "YOUR_APP_ID"
+};
+
+// Initialize Firebase
+let dbCloud, docRef;
+try {
+  firebase.initializeApp(firebaseConfig);
+  dbCloud = firebase.firestore();
+  // Humara data ek hi document me save hoga (agradoot_lms/main_data)
+  docRef = dbCloud.collection('agradoot_lms').doc('main_data');
+} catch (e) {
+  console.error("Firebase initialization failed. Please check your config.", e);
+}
+
 var KEY='agradoot_v5';
 var SKEY='agradoot_sess_v5';
 
@@ -114,12 +141,27 @@ function fmtDate(d){if(!d)return'—';var dt=new Date(d);if(isNaN(dt))return d;r
 function getGrade(p){ if(p>=90)return'A+';if(p>=80)return'A';if(p>=70)return'B+';if(p>=60)return'B';if(p>=50)return'C';if(p>=40)return'D';return'F'; }
 function getGradeLabel(p){ if(p>=90)return'Outstanding';if(p>=80)return'Excellent';if(p>=70)return'Very Good';if(p>=60)return'Good';if(p>=50)return'Average';if(p>=40)return'Pass';return'Fail'; }
 
-/* ---------- DATABASE ---------- */
+/* ---------- DATABASE INITIALIZATION ---------- */
 function defaultDB(){ return { passMark:40, logo:null, users:[{id:'a1',role:'admin',name:'Administrator',username:'admin',password:'admin123',active:true}], questions:[], exams:[], results:[] }; }
 var db; try{ db=JSON.parse(localStorage.getItem(KEY)); }catch(e){ db=null; }
 if(!db||!db.users){ db=defaultDB(); }
 if(db.logo===undefined) db.logo=null;
-function save(){ localStorage.setItem(KEY,JSON.stringify(db)); }
+
+// --- 2. SAVE FUNCTION (LOCAL + FIREBASE) ---
+function save(){ 
+  // LocalStorage me save karein (fast loading ke liye)
+  localStorage.setItem(KEY,JSON.stringify(db)); 
+  
+  // Firebase Cloud me save karein
+  if(typeof docRef !== 'undefined') {
+    docRef.set(db).then(function() {
+      console.log("Cloud sync: Success");
+    }).catch(function(error) {
+      console.error("Cloud sync: Failed", error);
+      toast('Data cloud me save nahi hua. Internet check karein.', 'bad');
+    });
+  }
+}
 
 /* ---------- SESSION ---------- */
 var sess=null; try{ sess=JSON.parse(sessionStorage.getItem(SKEY)); }catch(e){ sess=null; }
@@ -504,7 +546,6 @@ function generateConsolidatedMarksheet(studentId){
       '</tr>';
   }
 
-  /* A4 PAGE FIX: Height set to 285mm (safe from A4 297mm to avoid blank 2nd page) */
   var html =
     '<div style="width:210mm;height:285mm;background:#fff;position:relative;margin:0 auto;padding:0;box-sizing:border-box;font-family:Arial,sans-serif;color:#000;overflow:hidden;">'+
       '<div style="width:100%;height:100%;border:4px solid #b45309;box-sizing:border-box;padding:12mm;position:relative;overflow:hidden;display:flex;flex-direction:column;">'+
@@ -811,7 +852,32 @@ document.addEventListener('submit',function(e){
 });
 
 if(window.pdfjsLib){ pdfjsLib.GlobalWorkerOptions.workerSrc='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js'; }
+
+// --- 3. INITIAL LOAD & CLOUD SYNC ---
+// Pehle local data se website render karein (fast loading)
 render();
+
+// Phir Firebase se sync karein
+if(typeof docRef !== 'undefined') {
+  docRef.onSnapshot(function(doc) {
+    if (doc.exists) {
+      var cloudData = doc.data();
+      // Check karein ki data change hua hai ya nahi (infinite loop se bachne ke liye)
+      if(JSON.stringify(cloudData) !== JSON.stringify(db)) {
+        db = cloudData;
+        localStorage.setItem(KEY, JSON.stringify(db));
+        render(); // Naya data aate hi page update ho jayega
+      }
+    } else {
+      // Agar cloud khali hai, toh pehle se save local data cloud me bhej dein
+      if (db && db.users) {
+        docRef.set(db).then(function() {
+          console.log("Purana data cloud me migrate ho gaya!");
+        });
+      }
+    }
+  });
+}
 </script>
 </body>
 </html>
