@@ -1,0 +1,817 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Agradoot Vidyaniketan — Computer &amp; Skill Development Unit</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:system-ui,Segoe UI,Roboto,Arial,sans-serif;background:#eef2f8;color:#0f172a}
+.muted{color:#64748b;font-size:12.5px}
+
+/* LOGIN */
+.wrap{min-height:100vh;display:flex;flex-direction:column;background:#0b1a33}
+.login-container{flex:1;display:flex;align-items:center;justify-content:center;padding:20px}
+.box{display:flex;background:#fff;border-radius:18px;max-width:900px;width:100%;overflow:hidden;box-shadow:0 25px 50px -12px rgba(0,0,0,0.5)}
+
+.left-pane{flex:1.2;background:linear-gradient(135deg,#0b1a33,#1e3a8a);color:#fff;padding:40px;display:flex;flex-direction:column;justify-content:center}
+.right-pane{flex:1;padding:40px;background:#fff}
+.main-logo{width:90px;height:90px;margin-bottom:20px;border-radius:12px;object-fit:contain;background:#fff;padding:5px}
+.side-logo{width:38px;height:38px;border-radius:8px;object-fit:contain;background:#fff;flex-shrink:0}
+
+.left-pane h1{font-size:24px;margin:0 0 5px;line-height:1.3;font-weight:800;color:#facc15;}
+.left-pane .subline{font-size:14px;font-weight:700;color:#facc15;margin:0 0 20px;letter-spacing:0.5px;}
+.left-pane p{color:#cbd5e1;font-size:14px;margin:0 0 30px;line-height:1.6}
+
+.courses{list-style:none;padding:0;margin:0}
+.courses li{display:flex;align-items:center;gap:12px;background:rgba(255,255,255,0.1);padding:10px 15px;border-radius:10px;margin-bottom:10px;font-size:14.5px;font-weight:600;transition:0.2s}
+.courses li:hover{background:rgba(255,255,255,0.2);transform:translateX(5px)}
+.courses .icon{font-size:20px}
+.tabs{display:flex;background:#f1f5f9;border-radius:10px;padding:4px;margin-bottom:20px}
+.tab{flex:1;border:0;background:none;padding:10px;border-radius:8px;font-weight:700;font-size:13.5px;color:#475569;cursor:pointer;transition:0.2s}
+.tab.on{background:#fff;color:#b45309;box-shadow:0 1px 3px rgba(0,0,0,.12)}
+label{display:block;font-size:13px;font-weight:600;margin:12px 0 6px}
+input,select,textarea{width:100%;padding:11px 14px;border:1px solid #e2e8f0;border-radius:9px;font-size:14px;font-family:inherit;background:#f8fafc}
+input:focus{outline:2px solid #fde68a;border-color:#d97706;background:#fff}
+button{font-family:inherit}
+.footer-dev{text-align:center;padding:15px;color:#94a3b8;font-size:13px;font-weight:600;background:#0b1a33;border-top:1px solid #1e3a5f;letter-spacing:0.5px}
+.footer-dev span{color:#fbbf24}
+
+/* DASHBOARD */
+.btn{background:#1d4ed8;color:#fff;border:0;padding:10px 15px;border-radius:9px;font-weight:700;font-size:14px;cursor:pointer;margin-top:10px}
+.btn.ghost{background:#fff;color:#1d4ed8;border:1px solid #1d4ed8}
+.btn.sm{padding:6px 10px;font-size:12.5px;margin:0}
+.btn.danger{background:#dc2626}
+.btn.ok{background:#16a34a}
+.btn.gold{background:#d97706;color:#fff}
+.btn.gold:hover{background:#b45309}
+.hint{font-size:12px;color:#64748b;text-align:center;margin-top:20px;background:#f8fafc;padding:10px;border-radius:8px}
+.layout{display:flex;min-height:100vh}
+.side{width:240px;background:#0b1a33;padding:16px 12px;display:flex;flex-direction:column;flex-shrink:0}
+.brand{display:flex;gap:10px;align-items:center;color:#fff;padding-bottom:14px;border-bottom:1px solid #1e3a5f;margin-bottom:12px;font-size:13px}
+.brand small{color:#fbbf24;font-size:10.5px}
+.nav{display:block;width:100%;text-align:left;background:none;border:0;color:#cbd5e1;padding:9px 11px;border-radius:8px;font-size:13.5px;font-weight:600;cursor:pointer;margin-bottom:2px}
+.nav.on{background:#d97706;color:#fff}
+.nav:hover{background:#152a4a}
+.foot{margin-top:auto;border-top:1px solid #1e3a5f;padding-top:12px}
+.who{color:#fff;font-size:13px;font-weight:700;margin-bottom:8px}
+.who small{color:#7f93ad;font-size:11px;text-transform:uppercase}
+main{flex:1;display:flex;flex-direction:column;overflow-x:auto}
+#page-content{flex:1;padding:22px}
+.app-footer{text-align:center;padding:15px;color:#64748b;font-size:13px;font-weight:600;border-top:1px solid #e2e8f0;background:#fff;margin-top:auto}
+.card{background:#fff;border-radius:12px;padding:16px;margin-bottom:14px;box-shadow:0 1px 3px rgba(15,23,42,.08)}
+table{width:100%;border-collapse:collapse;font-size:13.5px}
+th,td{padding:9px;text-align:left;border-bottom:1px solid #e2e8f0}
+th{background:#f8fafc;font-size:12px;text-transform:uppercase;color:#475569}
+.badge{padding:2px 8px;border-radius:99px;font-size:11.5px;font-weight:700;display:inline-block}
+.g{background:#dcfce7;color:#166534}.r{background:#fee2e2;color:#991b1b}.b{background:#dbeafe;color:#1e40af}.y{background:#fef3c7;color:#92400e}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.q{border:1px solid #e2e8f0;border-radius:10px;padding:12px;margin-bottom:10px}
+.opt{display:flex;gap:9px;padding:8px 10px;border:1px solid #e2e8f0;border-radius:8px;margin-top:6px;font-size:14px;cursor:pointer}
+.opt.sel{border-color:#1d4ed8;background:#eff6ff}
+.opt input{width:auto;accent-color:#1d4ed8;margin-top:3px}
+.timer{background:#0f172a;color:#fff;padding:12px 16px;border-radius:10px;font-weight:800;display:flex;justify-content:space-between;margin-bottom:14px}
+.timer.low{background:#dc2626}
+.toast{position:fixed;bottom:18px;right:18px;background:#0f172a;color:#fff;padding:11px 16px;border-radius:9px;font-size:13.5px;font-weight:600;z-index:9999}
+.toast.ok{background:#16a34a}.toast.bad{background:#dc2626}
+.modal{position:fixed;inset:0;background:rgba(15,23,42,.65);display:flex;align-items:center;justify-content:center;padding:16px;z-index:100}
+.modal>div{background:#fff;border-radius:14px;padding:20px;max-width:640px;width:100%;max-height:88vh;overflow:auto}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.form-grid .full{grid-column:1/-1}
+.form-grid label{margin:6px 0 4px}
+@media(max-width:800px){
+  .box{flex-direction:column}.left-pane{padding:25px}.right-pane{padding:25px}
+  .layout{flex-direction:column}.side{width:100%}
+  nav{display:flex;flex-wrap:wrap;gap:4px}.nav{display:inline-block;width:auto}
+  #page-content{padding:14px}
+  .form-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+<div id="app"></div>
+<div id="pdf-container" style="position:fixed;left:-9999px;top:0;background:#fff;"></div>
+
+<script>
+/* ============================================================
+   AGRADOOT VIDYANIKETAN — LMS v5
+   ============================================================ */
+var KEY='agradoot_v5';
+var SKEY='agradoot_sess_v5';
+
+function esc(s){ if(s===undefined||s===null) s=''; return String(s).replace(/[&<>"']/g,function(c){ if(c==='&')return'&amp;';if(c==='<')return'&lt;';if(c==='>')return'&gt;';if(c==='"')return'&quot;';return'&#39;'; }); }
+function uid(p){ return p+Math.random().toString(36).slice(2,9); }
+function shuffle(a){for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t;}return a;}
+function find(arr,id){for(var i=0;i<arr.length;i++){if(arr[i].id===id)return arr[i];}return null;}
+function toast(msg,type){var d=document.createElement('div');d.className='toast '+(type||'ok');d.textContent=msg;document.body.appendChild(d);setTimeout(function(){d.remove();},2500);}
+function fmtTime(s){var m=Math.floor(s/60),sec=s%60;return (m<10?'0':'')+m+':'+(sec<10?'0':'')+sec;}
+function nowStr(t){return new Date(t).toLocaleString('en-IN',{dateStyle:'medium',timeStyle:'short'});}
+function nowStrShort(t){return new Date(t).toLocaleDateString('en-IN');}
+function fmtDate(d){if(!d)return'—';var dt=new Date(d);if(isNaN(dt))return d;return dt.toLocaleDateString('en-IN',{day:'2-digit',month:'short',year:'numeric'});}
+
+function getGrade(p){ if(p>=90)return'A+';if(p>=80)return'A';if(p>=70)return'B+';if(p>=60)return'B';if(p>=50)return'C';if(p>=40)return'D';return'F'; }
+function getGradeLabel(p){ if(p>=90)return'Outstanding';if(p>=80)return'Excellent';if(p>=70)return'Very Good';if(p>=60)return'Good';if(p>=50)return'Average';if(p>=40)return'Pass';return'Fail'; }
+
+/* ---------- DATABASE ---------- */
+function defaultDB(){ return { passMark:40, logo:null, users:[{id:'a1',role:'admin',name:'Administrator',username:'admin',password:'admin123',active:true}], questions:[], exams:[], results:[] }; }
+var db; try{ db=JSON.parse(localStorage.getItem(KEY)); }catch(e){ db=null; }
+if(!db||!db.users){ db=defaultDB(); }
+if(db.logo===undefined) db.logo=null;
+function save(){ localStorage.setItem(KEY,JSON.stringify(db)); }
+
+/* ---------- SESSION ---------- */
+var sess=null; try{ sess=JSON.parse(sessionStorage.getItem(SKEY)); }catch(e){ sess=null; }
+function user(){ if(!sess)return null; var u=find(db.users,sess); if(!u||!u.active)return null; return u; }
+function login(id){ sess=id; sessionStorage.setItem(SKEY,JSON.stringify(id)); }
+function logout(){ sess=null; sessionStorage.removeItem(SKEY); examState=null; }
+
+var view='dash'; var examState=null; var timer=null; var loginRole='admin';
+var pendingImport=[]; var dashFilter=''; var editingStudentId=null;
+var previewHTML=null; var previewFilename=null;
+
+var NAV={
+  admin:[['dash','Dashboard'],['teachers','Manage Teachers'],['students','Manage Students'],['questions','Question Bank'],['import','PDF Import'],['exams','Exams'],['results','Results'],['settings','Settings']],
+  teacher:[['dash','Dashboard'],['students','Students List'],['questions','Question Bank'],['import','PDF Import'],['exams','Exams'],['results','Results']],
+  student:[['dash','Dashboard'],['exam','Take Exam'],['myresults','My Results']]
+};
+
+function getLogoHTML(isSmall){
+  var cls = isSmall ? 'side-logo' : 'main-logo';
+  if(db.logo){ return '<img src="'+db.logo+'" class="'+cls+'" alt="Logo">'; }
+  if(isSmall){ return '<div style="background:#d97706;color:#fff;display:grid;place-items:center;font-weight:800;font-size:20px;border-radius:8px;width:38px;height:38px;">A</div>'; }
+  return '<img src="'+getLogoDataUrl()+'" class="'+cls+'" alt="Logo">';
+}
+function getLogoDataUrl(){
+  if(db.logo) return db.logo;
+  var svg = '<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">'
+    + '<circle cx="100" cy="100" r="92" fill="#0b1a33"/>'
+    + '<circle cx="100" cy="100" r="82" fill="none" stroke="#facc15" stroke-width="3"/>'
+    + '<text x="100" y="118" text-anchor="middle" font-size="72" font-weight="900" fill="#fff" font-family="Arial">A</text>'
+    + '<text x="100" y="158" text-anchor="middle" font-size="14" font-weight="bold" fill="#facc15" font-family="Arial">VIDYANIKETAN</text>'
+    + '</svg>';
+  return 'data:image/svg+xml;base64,' + btoa(svg);
+}
+
+/* ============================================================
+   LOGIN SCREEN
+   ============================================================ */
+function renderLogin(){
+  var roles=[['admin','Admin'],['teacher','Teacher'],['student','Student']];
+  var tabs='';
+  for(var i=0;i<roles.length;i++){ tabs+='<button type="button" class="tab'+(roles[i][0]===loginRole?' on':'')+'" data-role="'+roles[i][0]+'">'+roles[i][1]+'</button>'; }
+  document.getElementById('app').innerHTML =
+    '<div class="wrap"><div class="login-container"><div class="box">'+
+      '<div class="left-pane">'+getLogoHTML(false)+
+        '<h1>Agradoot Vidyaniketan</h1>'+
+        '<p class="subline">(Computer &amp; Skill Development Unit)</p>'+
+        '<p>Empowering students with industry-ready computer skills.</p>'+
+        '<ul class="courses">'+
+          '<li><span class="icon">💻</span> Basic Computer</li><li><span class="icon">🎓</span> DCA (Diploma)</li>'+
+          '<li><span class="icon">🏆</span> ADCA (Adv. Diploma)</li><li><span class="icon">📚</span> PGDCA</li>'+
+          '<li><span class="icon">📊</span> TALLY ERP 9</li><li><span class="icon">🗂️</span> Office Management</li>'+
+        '</ul>'+
+      '</div>'+
+      '<div class="right-pane">'+
+        '<h2 style="margin:0 0 5px;font-size:22px">Welcome Back</h2><p class="muted" style="margin-bottom:20px">Please login to your account</p>'+
+        '<div class="tabs">'+tabs+'</div><form data-form="login">'+
+          '<label>Username</label><input name="u" required placeholder="Enter username">'+
+          '<label>Password</label><input name="p" type="password" required placeholder="Enter password">'+
+          '<button class="btn gold" type="submit" style="width:100%;margin-top:20px;padding:12px;font-size:15px">Login</button>'+
+        '</form><div class="hint">Demo admin login → <b>admin / admin123</b></div>'+
+      '</div>'+
+    '</div></div><div class="footer-dev">@2026 Agradoot Vidyaniketan | Developed by <span>A K Laskar</span></div></div>';
+}
+
+/* ============================================================
+   MAIN APP RENDER
+   ============================================================ */
+function render(){
+  if(timer){ clearInterval(timer); timer=null; }
+  var u=user(); if(!u){ renderLogin(); return; }
+  var nav=NAV[u.role]||[]; var items='';
+  for(var i=0;i<nav.length;i++){ items+='<button class="nav'+(nav[i][0]===view?' on':'')+'" data-nav="'+nav[i][0]+'">'+nav[i][1]+'</button>'; }
+  document.getElementById('app').innerHTML='<div class="layout"><aside class="side">'+
+    '<div class="brand">'+getLogoHTML(true)+'<div><b>Agradoot Vidyaniketan</b><br><small>Computer &amp; Skill Dev. Unit</small></div></div>'+
+    '<nav>'+items+'</nav><div class="foot"><div class="who">'+esc(u.name)+'<br><small>'+u.role+'</small></div>'+
+    '<button class="btn ghost sm" data-act="logout">Logout</button></div></aside>'+
+    '<main><div id="page-content"></div><div class="app-footer">@2026 Agradoot Vidyaniketan | Developed By A K Laskar</div></main></div>';
+  paint(u);
+}
+
+function paint(u){
+  var contentBox=document.getElementById('page-content'); if(!contentBox) return;
+  var h='';
+  if(view==='dash') h = (u.role==='student') ? dashStudent(u) : dashStaff(u);
+  else if(view==='teachers') h = viewTeachers();
+  else if(view==='students') h = viewStudents(u);
+  else if(view==='questions') h = viewQuestions();
+  else if(view==='import') h = viewImport();
+  else if(view==='exams') h = viewExams();
+  else if(view==='results') h = viewResults();
+  else if(view==='settings') h = viewSettings();
+  else if(view==='exam') h = viewExam(u);
+  else if(view==='myresults') h = viewMyResults(u);
+  else h='<h2>Coming soon</h2>';
+  contentBox.innerHTML=h;
+  if(view==='exam' && examState) startTimer();
+}
+
+/* ============================================================
+   DASHBOARD
+   ============================================================ */
+function dashStaff(u){
+  var st=0,te=0,i; for(i=0;i<db.users.length;i++){ if(db.users[i].role==='student')st++; if(db.users[i].role==='teacher')te++; }
+  var avg=0; if(db.results.length){ var s=0; for(i=0;i<db.results.length;i++)s+=db.results[i].percent; avg=Math.round(s/db.results.length); }
+  var h='<h2>Dashboard</h2><div class="card"><div class="row"><span class="badge b">Total Students: '+st+'</span><span class="badge b">Total Teachers: '+te+'</span><span class="badge y">Questions: '+db.questions.length+'</span><span class="badge y">Exams: '+db.exams.length+'</span><span class="badge g">Attempts: '+db.results.length+'</span><span class="badge g">Average Score: '+avg+'%</span></div></div>';
+  h+='<div class="card"><h3>Search Directory</h3><input type="text" id="dashSearch" placeholder="Search student or teacher by name / username..." value="'+esc(dashFilter)+'" oninput="updateDashFilter(this.value)" style="max-width:400px; margin-bottom:15px; padding:10px;"></div>';
+  var students=[],teachers=[];
+  for(i=0;i<db.users.length;i++){ var x=db.users[i]; var text=(x.name+' '+x.username+' '+(x.phone||'')+' '+(x.rollNo||'')+' '+(x.regNo||'')).toLowerCase(); if(dashFilter && text.indexOf(dashFilter.toLowerCase())===-1) continue; if(x.role==='student') students.push(x); if(x.role==='teacher') teachers.push(x); }
+  h+='<div class="card"><h3>List of Students ('+students.length+')</h3>';
+  if(!students.length) h+='<p class="muted">Koi student nahi mila.</p>';
+  else { h+='<table><tr><th>Name</th><th>Roll/Reg</th><th>Course</th><th>Session</th><th>Username</th><th>Status</th></tr>';
+    for(i=0;i<students.length;i++){ var sx=students[i]; h+='<tr><td><b>'+esc(sx.name)+'</b></td><td>'+esc(sx.rollNo||'-')+' / '+esc(sx.regNo||'-')+'</td><td>'+esc(sx.courseName||'-')+'</td><td>'+esc(sx.session||'-')+'</td><td>'+esc(sx.username)+'</td><td><span class="badge '+(sx.active?'g':'r')+'">'+(sx.active?'Active':'Blocked')+'</span></td></tr>'; } h+='</table>'; }
+  h+='</div><div class="card"><h3>List of Teachers ('+teachers.length+')</h3>';
+  if(!teachers.length) h+='<p class="muted">Koi teacher nahi mila.</p>';
+  else { h+='<table><tr><th>Name</th><th>Username</th><th>Phone</th><th>Status</th></tr>';
+    for(i=0;i<teachers.length;i++){ h+='<tr><td><b>'+esc(teachers[i].name)+'</b></td><td>'+esc(teachers[i].username)+'</td><td>'+esc(teachers[i].phone||'-')+'</td><td><span class="badge '+(teachers[i].active?'g':'r')+'">'+(teachers[i].active?'Active':'Blocked')+'</span></td></tr>'; } h+='</table>'; }
+  return h+'</div>';
+}
+function updateDashFilter(val){ dashFilter=val; var u=user(); if(u) paint(u); setTimeout(function(){var inp=document.getElementById('dashSearch');if(inp){inp.focus();var len=inp.value.length;inp.setSelectionRange(len,len);}},10); }
+
+function dashStudent(u){
+  var i,mine=[]; for(i=0;i<db.results.length;i++){ if(db.results[i].studentId===u.id) mine.push(db.results[i]); }
+  var h='<h2>Welcome, '+esc(u.name)+'</h2>';
+  h+='<div class="card"><h3>My Details</h3><table style="max-width:700px">';
+  h+='<tr><td><b>Name</b></td><td>'+esc(u.name)+'</td><td><b>Roll No</b></td><td>'+esc(u.rollNo||'-')+'</td></tr>';
+  h+='<tr><td><b>Father</b></td><td>'+esc(u.fatherName||'-')+'</td><td><b>Reg No</b></td><td>'+esc(u.regNo||'-')+'</td></tr>';
+  h+='<tr><td><b>Mother</b></td><td>'+esc(u.motherName||'-')+'</td><td><b>Course</b></td><td>'+esc(u.courseName||'-')+'</td></tr>';
+  h+='<tr><td><b>DOB</b></td><td>'+fmtDate(u.dob)+'</td><td><b>Session</b></td><td>'+esc(u.session||'-')+'</td></tr>';
+  h+='<tr><td><b>Admission</b></td><td>'+fmtDate(u.admissionDate)+'</td><td></td><td></td></tr>';
+  h+='</table>';
+  if(mine.length) h+='<button class="btn gold" data-act="full-marksheet" data-id="'+u.id+'" style="margin-top:12px">📄 View Marksheet</button>';
+  h+='</div>';
+  h+='<div class="card"><h3>Available Exams</h3>';
+  var avail=[]; for(i=0;i<db.exams.length;i++){ if(db.exams[i].published) avail.push(db.exams[i]); }
+  if(!avail.length) h+='<p class="muted">Abhi koi exam publish nahi hua hai.</p>';
+  for(i=0;i<avail.length;i++){ var e=avail[i]; var pool=countPool(e); h+='<div class="q"><b>'+esc(e.title)+'</b><div class="muted">'+esc(e.subject)+' • '+e.count+' questions • '+e.duration+' min</div><button class="btn sm" data-act="start" data-id="'+e.id+'" style="margin-top:8px"'+(pool<1?' disabled':'')+'>'+(pool<1?'No questions':'Start Exam')+'</button></div>'; }
+  return h+'</div>';
+}
+
+/* ============================================================
+   TEACHERS
+   ============================================================ */
+function userTable(list){
+  if(!list.length) return '<p class="muted">Koi record nahi hai.</p>';
+  var cu=user(); var h='<table><tr><th>Name</th><th>Username</th><th>Password</th><th>Status</th><th>Action</th></tr>';
+  for(var i=0;i<list.length;i++){ var x=list[i]; h+='<tr><td><b>'+esc(x.name)+'</b></td><td>'+esc(x.username)+'</td><td class="muted">'+esc(x.password)+'</td><td><span class="badge '+(x.active?'g':'r')+'">'+(x.active?'Active':'Blocked')+'</span></td><td>';
+    if(cu.role==='admin'){ h+='<button class="btn sm ghost" data-act="toggle" data-id="'+x.id+'">'+(x.active?'Block':'Unblock')+'</button> <button class="btn sm danger" data-act="del" data-id="'+x.id+'">Delete</button>'; } else { h+='<span class="muted">—</span>'; }
+    h+='</td></tr>'; }
+  return h+'</table>';
+}
+function viewTeachers(){ var list=[],i; for(i=0;i<db.users.length;i++){ if(db.users[i].role==='teacher') list.push(db.users[i]); }
+  return '<h2>Manage Teachers</h2><div class="card"><h3>Add Teacher</h3><form data-form="add-teacher"><label>Full Name</label><input name="name" required><label>Username</label><input name="username" required><label>Password</label><input name="password" required minlength="4"><button class="btn" type="submit">Add Teacher</button></form></div><div class="card">'+userTable(list)+'</div>';
+}
+
+/* ============================================================
+   STUDENTS
+   ============================================================ */
+function viewStudents(u){
+  var list=[],i; for(i=0;i<db.users.length;i++){ if(db.users[i].role==='student') list.push(db.users[i]); }
+  var h='<h2>Manage Students</h2>';
+  if(u.role==='admin'){
+    h+='<div class="card"><h3>Add Student (with full details)</h3><form data-form="add-student">';
+    h+='<div class="form-grid">';
+    h+='<div class="full"><label>Full Name *</label><input name="name" required></div>';
+    h+='<div><label>Father\'s Name *</label><input name="fatherName" required></div>';
+    h+='<div><label>Mother\'s Name</label><input name="motherName"></div>';
+    h+='<div><label>Date of Birth</label><input name="dob" type="date"></div>';
+    h+='<div><label>Date of Admission</label><input name="admissionDate" type="date"></div>';
+    h+='<div><label>Roll No *</label><input name="rollNo" required></div>';
+    h+='<div><label>Registration No *</label><input name="regNo" required></div>';
+    h+='<div><label>Course Name *</label><input name="courseName" required placeholder="e.g. DCA, ADCA, PGDCA"></div>';
+    h+='<div><label>Session *</label><input name="session" required placeholder="e.g. 2024-2025"></div>';
+    h+='<div><label>Phone</label><input name="phone"></div>';
+    h+='<div><label>Username *</label><input name="username" required></div>';
+    h+='<div><label>Password *</label><input name="password" required minlength="4"></div>';
+    h+='</div><button class="btn" type="submit" style="margin-top:15px">Add Student</button></form></div>';
+  }
+  h+='<div class="card"><h3>Students ('+list.length+')</h3>'+studentTableFull(list,u)+'</div>';
+  return h;
+}
+
+function studentTableFull(list,cu){
+  if(!list.length) return '<p class="muted">Koi student nahi.</p>';
+  var h='<div style="overflow-x:auto"><table><tr><th>Name</th><th>Father</th><th>Roll No</th><th>Reg No</th><th>Course</th><th>Session</th><th>Admission</th><th>Status</th><th>Action</th></tr>';
+  for(var i=0;i<list.length;i++){
+    var x=list[i];
+    h+='<tr>';
+    h+='<td><b>'+esc(x.name)+'</b><br><span class="muted" style="font-size:11px">'+esc(x.username)+'</span></td>';
+    h+='<td>'+esc(x.fatherName||'-')+'</td>';
+    h+='<td>'+esc(x.rollNo||'-')+'</td>';
+    h+='<td>'+esc(x.regNo||'-')+'</td>';
+    h+='<td>'+esc(x.courseName||'-')+'</td>';
+    h+='<td>'+esc(x.session||'-')+'</td>';
+    h+='<td>'+fmtDate(x.admissionDate)+'</td>';
+    h+='<td><span class="badge '+(x.active?'g':'r')+'">'+(x.active?'Active':'Blocked')+'</span></td>';
+    h+='<td><div class="row" style="gap:4px">';
+    if(cu.role==='admin'){
+      h+='<button class="btn sm ghost" data-act="edit-student" data-id="'+x.id+'">✎ Edit</button>';
+      h+='<button class="btn sm gold" data-act="full-marksheet" data-id="'+x.id+'">📄 Marksheet</button>';
+      h+='<button class="btn sm ghost" data-act="toggle" data-id="'+x.id+'">'+(x.active?'Block':'Unblock')+'</button>';
+      h+='<button class="btn sm danger" data-act="del" data-id="'+x.id+'">Delete</button>';
+    } else {
+      h+='<button class="btn sm gold" data-act="full-marksheet" data-id="'+x.id+'">📄 Marksheet</button>';
+    }
+    h+='</div></td></tr>';
+  }
+  return h+'</table></div>';
+}
+
+function openEditStudent(id){
+  var s=find(db.users,id); if(!s) return;
+  editingStudentId=id;
+  var existing=document.getElementById('editStudentModal'); if(existing) existing.remove();
+  var html='<div class="modal" id="editStudentModal"><div><h3>Edit Student Details</h3><form data-form="edit-student">';
+  html+='<div class="form-grid">';
+  html+='<div class="full"><label>Full Name *</label><input name="name" required value="'+esc(s.name)+'"></div>';
+  html+='<div><label>Father\'s Name *</label><input name="fatherName" required value="'+esc(s.fatherName||'')+'"></div>';
+  html+='<div><label>Mother\'s Name</label><input name="motherName" value="'+esc(s.motherName||'')+'"></div>';
+  html+='<div><label>Date of Birth</label><input name="dob" type="date" value="'+esc(s.dob||'')+'"></div>';
+  html+='<div><label>Date of Admission</label><input name="admissionDate" type="date" value="'+esc(s.admissionDate||'')+'"></div>';
+  html+='<div><label>Roll No *</label><input name="rollNo" required value="'+esc(s.rollNo||'')+'"></div>';
+  html+='<div><label>Registration No *</label><input name="regNo" required value="'+esc(s.regNo||'')+'"></div>';
+  html+='<div><label>Course Name *</label><input name="courseName" required value="'+esc(s.courseName||'')+'"></div>';
+  html+='<div><label>Session *</label><input name="session" required value="'+esc(s.session||'')+'"></div>';
+  html+='<div><label>Phone</label><input name="phone" value="'+esc(s.phone||'')+'"></div>';
+  html+='<div><label>Username *</label><input name="username" required value="'+esc(s.username)+'"></div>';
+  html+='<div><label>Password *</label><input name="password" required value="'+esc(s.password)+'"></div>';
+  html+='</div>';
+  html+='<div class="row" style="margin-top:15px;justify-content:flex-end"><button class="btn ghost" type="button" data-act="close">Cancel</button><button class="btn" type="submit">Save Changes</button></div>';
+  html+='</form></div></div>';
+  var wrap=document.createElement('div'); wrap.innerHTML=html; document.body.appendChild(wrap.firstChild);
+}
+
+/* ============================================================
+   SETTINGS
+   ============================================================ */
+function viewSettings(){
+  return '<h2>Settings</h2><div class="card"><h3>Institute Logo</h3><p class="muted" style="margin-bottom:10px">Upload a PNG or JPG image.</p><div class="row"><input type="file" id="logoUpload" accept="image/*" style="max-width:300px">'+(db.logo?'<button class="btn danger sm" data-act="remove-logo">Remove Logo</button>':'')+'</div></div><div class="card"><h3>Exam Settings</h3><form data-form="settings"><label>Pass Mark (%)</label><input name="passMark" type="number" min="1" max="100" value="'+db.passMark+'"><button class="btn" type="submit">Save Settings</button></form></div><div class="card"><h3>Change Admin Password</h3><form data-form="pass"><label>New Password</label><input name="password" type="text" minlength="4" required><button class="btn" type="submit">Update Password</button></form></div><div class="card"><h3>Danger Zone</h3><p class="muted">Sab data delete ho jayega.</p><button class="btn danger" data-act="reset">Delete All Data</button></div>';
+}
+
+/* ============================================================
+   IMPORT
+   ============================================================ */
+function viewImport(){
+  return '<h2>Import Questions from PDF</h2><div class="card"><h3>Step 1: Upload PDF</h3><p class="muted">Format: <code>1. Question<br>A) Option<br>Answer: A</code></p><label>Subject Name</label><input type="text" id="impSubject" placeholder="e.g. Computer Fundamentals" required><label>Select PDF</label><input type="file" id="pdfFile" accept="application/pdf"><button class="btn" data-act="parse-pdf">📄 Extract Questions</button></div><div id="importPreview"></div>';
+}
+function renderImportPreview(){
+  var box=document.getElementById('importPreview'); if(!box) return;
+  if(!pendingImport.length){ box.innerHTML='<div class="card"><p class="muted">Koi valid MCQ nahi mila.</p></div>'; return; }
+  var h='<div class="card"><div class="row"><h3 style="margin:0">Found '+pendingImport.length+' questions</h3><button class="btn ok" data-act="confirm-import">Add All</button></div><br>';
+  for(var i=0;i<pendingImport.length;i++){ var q=pendingImport[i]; h+='<div class="q"><div class="row"><span class="badge b">'+(i+1)+'</span></div><div style="font-weight:600;margin:8px 0">'+esc(q.question)+'</div>'; for(var k=0;k<q.options.length;k++){ h+='<div class="opt'+(k===q.answer?' sel':'')+'">'+String.fromCharCode(65+k)+'. '+esc(q.options[k])+'</div>'; } h+='</div>'; }
+  box.innerHTML=h+'</div>';
+}
+async function parsePdfFile(){
+  var fileInp=document.getElementById('pdfFile'), subjInp=document.getElementById('impSubject');
+  if(!subjInp.value.trim()){ toast('Subject likhein!','bad'); return; }
+  if(!fileInp.files[0]){ toast('PDF select karein!','bad'); return; }
+  var subject=subjInp.value.trim(), file=fileInp.files[0];
+  try{
+    toast('PDF padhi ja rahi hai...'); var buf=await file.arrayBuffer(); var pdf=await pdfjsLib.getDocument({data:buf}).promise; var allText='';
+    for(var p=1;p<=pdf.numPages;p++){ var page=await pdf.getPage(p); var tc=await page.getTextContent(); var lastY=-1, pt=''; tc.items.forEach(function(item){ var y=item.transform[5]; if(lastY!==-1 && Math.abs(y-lastY)>5){ pt+='\n'; } pt+=item.str+' '; lastY=y; }); allText+=pt+'\n'; }
+    var ex=parseMCQs(allText,subject);
+    if(ex.length){ pendingImport=ex; renderImportPreview(); toast('Success! '+ex.length+' questions.','ok'); } else{ toast('Questions detect nahi hue.','bad'); }
+  }catch(err){ toast('PDF read nahi ho payi.','bad'); }
+}
+function parseMCQs(text,subject){
+  var lines=text.split('\n'),out=[],cur=null;
+  for(var i=0;i<lines.length;i++){ var line=lines[i].replace(/\s+/g,' ').trim(); if(!line) continue;
+    var ansMatch=line.match(/^(?:Answer|Ans|Correct Answer|उत्तर)\s*[:\-]?\s*([A-Da-d])/i); if(ansMatch&&cur){ var aL=ansMatch[1].toUpperCase(); cur.answer=aL.charCodeAt(0)-65; if(cur.answer>=0&&cur.answer<cur.options.length){out.push(cur);} cur=null; continue; }
+    var optMatch=line.match(/^[\(]?([A-Da-d])[\.\)]\s*(.+)/); if(optMatch&&cur){ cur.options.push(optMatch[2].trim()); continue; }
+    var qMatch=line.match(/^(?:Q(?:uestion)?\s*)?(\d{1,3})[\.\)]\s*(.+)/i); if(qMatch){ if(cur&&cur.options.length>=2)out.push(cur); cur={question:qMatch[2].trim(),options:[],answer:0}; continue; }
+    if(cur){ if(cur.options.length===0) cur.question+=' '+line; else cur.options[cur.options.length-1]+=' '+line; }
+  }
+  return out.map(function(q){ return {question:q.question,options:q.options,answer:q.answer>=0&&q.answer<q.options.length?q.answer:0,subject:subject}; });
+}
+
+/* ============================================================
+   QUESTIONS
+   ============================================================ */
+function viewQuestions(){
+  var h='<h2>Question Bank ('+db.questions.length+')</h2><div class="card"><h3>Add Question</h3><form data-form="add-q"><label>Subject</label><input name="subject" required><label>Question</label><textarea name="question" rows="2" required></textarea><label>Option A</label><input name="o0" required><label>Option B</label><input name="o1" required><label>Option C</label><input name="o2"><label>Option D</label><input name="o3"><label>Correct Answer</label><select name="ans"><option value="0">A</option><option value="1">B</option><option value="2">C</option><option value="3">D</option></select><button class="btn" type="submit">Save</button></form></div><div class="card"><h3>All Questions</h3>';
+  if(!db.questions.length) h+='<p class="muted">Abhi koi question nahi hai.</p>';
+  for(var i=0;i<db.questions.length;i++){ var q=db.questions[i]; h+='<div class="q"><div class="row"><span class="badge y">'+esc(q.subject)+'</span><span class="muted">#'+(i+1)+'</span></div><div style="font-weight:600;margin:8px 0">'+esc(q.question)+'</div>'; for(var k=0;k<q.options.length;k++){ h+='<div class="opt'+(k===q.answer?' sel':'')+'">'+String.fromCharCode(65+k)+'. '+esc(q.options[k])+(k===q.answer?' <span class="badge g">Correct</span>':'')+'</div>'; } h+='<button class="btn sm danger" data-act="del-q" data-id="'+q.id+'" style="margin-top:8px">Delete</button></div>'; }
+  return h+'</div>';
+}
+function poolFor(exam){ var p=[],i; for(i=0;i<db.questions.length;i++){ if(exam.subject==='All'||db.questions[i].subject===exam.subject) p.push(db.questions[i]); } return p; }
+function countPool(exam){ return poolFor(exam).length; }
+
+/* ============================================================
+   EXAMS
+   ============================================================ */
+function viewExams(){
+  var subs={},subjList=[],i; for(i=0;i<db.questions.length;i++){ var s=db.questions[i].subject; if(!subs[s]){subs[s]=1;subjList.push(s);} }
+  var h='<h2>Exams</h2><div class="card"><h3>Create Exam</h3><form data-form="add-e"><label>Exam Title</label><input name="title" required><label>Subject</label><select name="subject"><option value="All">All Subjects</option>';
+  for(i=0;i<subjList.length;i++){ h+='<option>'+esc(subjList[i])+'</option>'; }
+  h+='</select><label>Number of Questions</label><input name="count" type="number" value="10" min="1" required><label>Duration (min)</label><input name="duration" type="number" value="20" min="1" required><button class="btn" type="submit">Create Exam</button></form></div><div class="card"><h3>All Exams</h3>';
+  if(!db.exams.length) h+='<p class="muted">Abhi koi exam nahi.</p>';
+  else { h+='<table><tr><th>Title</th><th>Subject</th><th>Qns</th><th>Duration</th><th>Status</th><th>Action</th></tr>';
+    for(i=0;i<db.exams.length;i++){ var e=db.exams[i]; var bank=countPool(e); h+='<tr><td><b>'+esc(e.title)+'</b></td><td>'+esc(e.subject)+'</td><td>'+e.count+(bank<e.count?' <span class="badge r">bank:'+bank+'</span>':'')+'</td><td>'+e.duration+' min</td><td><span class="badge '+(e.published?'g':'y')+'">'+(e.published?'Published':'Draft')+'</span></td><td><button class="btn sm ghost" data-act="pub" data-id="'+e.id+'">'+(e.published?'Unpublish':'Publish')+'</button> <button class="btn sm danger" data-act="del-e" data-id="'+e.id+'">Delete</button></td></tr>'; } h+='</table>'; }
+  return h+'</div>';
+}
+
+/* ============================================================
+   RESULTS
+   ============================================================ */
+function resultTable(rs,showName){
+  if(!rs.length) return '<p class="muted">Koi result nahi hai.</p>';
+  var h='<table><tr>'+(showName?'<th>Student</th>':'')+'<th>Exam</th><th>Score</th><th>%</th><th>Result</th><th>Date</th><th>Action</th></tr>';
+  for(var i=0;i<rs.length;i++){ var r=rs[i];
+    h+='<tr>'+(showName?'<td><b>'+esc(r.studentName)+'</b></td>':'')+'<td>'+esc(r.examTitle)+'</td><td>'+r.score+'/'+r.total+'</td><td><span class="badge '+(r.percent>=db.passMark?'g':'r')+'">'+r.percent+'%</span></td><td>'+(r.percent>=db.passMark?'<span class="badge g">PASS</span>':'<span class="badge r">FAIL</span>')+'</td><td class="muted">'+nowStrShort(r.at)+'</td><td><button class="btn sm ghost" data-act="review" data-id="'+r.id+'">Review</button></td></tr>';
+  }
+  return h+'</table>';
+}
+function viewResults(){
+  var rs=db.results.slice().sort(function(a,b){return b.at-a.at;});
+  var studentsWithResults={},i; for(i=0;i<db.results.length;i++) studentsWithResults[db.results[i].studentId]=1;
+  var h='<h2>All Results ('+rs.length+')</h2>';
+  h+='<div class="card"><h3>Marksheet (All Exams Merged)</h3><p class="muted">Select student → view + download</p><div class="row">';
+  var studentIds=Object.keys(studentsWithResults);
+  if(!studentIds.length){ h+='<p class="muted">Abhi koi result nahi hai.</p>'; }
+  else {
+    h+='<select id="consolidatedStudentSelect" style="max-width:320px"><option value="">-- Select Student --</option>';
+    for(i=0;i<studentIds.length;i++){ var st=find(db.users,studentIds[i]); if(st) h+='<option value="'+st.id+'">'+esc(st.rollNo||'')+' — '+esc(st.name)+'</option>'; }
+    h+='</select>';
+    h+='<button class="btn gold" data-act="consolidated-download">📄 View Marksheet</button>';
+  }
+  h+='</div></div>';
+  h+='<div class="card">'+resultTable(rs,true)+'</div>';
+  return h;
+}
+function viewMyResults(u){
+  var rs=[],i; for(i=0;i<db.results.length;i++){ if(db.results[i].studentId===u.id) rs.push(db.results[i]); }
+  rs.sort(function(a,b){return b.at-a.at;});
+  var h='<h2>My Results</h2>';
+  if(rs.length) h+='<div class="card"><button class="btn gold" data-act="full-marksheet" data-id="'+u.id+'">📄 View Marksheet</button></div>';
+  h+='<div class="card">'+resultTable(rs,false)+'</div>';
+  return h;
+}
+
+/* ============================================================
+   MARKSHEET (ALL EXAMS MERGED)
+   ============================================================ */
+function generateConsolidatedMarksheet(studentId){
+  var student=find(db.users,studentId);
+  if(!student){ toast('Student not found','bad'); return; }
+
+  var results=[],i;
+  for(i=0;i<db.results.length;i++){
+    if(db.results[i].studentId===studentId) results.push(db.results[i]);
+  }
+  if(!results.length){ toast('Is student ka koi exam result nahi hai.','bad'); return; }
+  results.sort(function(a,b){ return a.at-b.at; });
+
+  var grandFull=0, grandObt=0, allPassed=true;
+  for(i=0;i<results.length;i++){
+    grandFull+=results[i].total;
+    grandObt +=results[i].score;
+    if(results[i].percent<db.passMark) allPassed=false;
+  }
+  var overallPct = grandFull>0 ? Math.round((grandObt/grandFull)*100*100)/100 : 0;
+  var finalStatus = (allPassed && overallPct>=db.passMark) ? 'PASS' : 'FAIL';
+  var finalGrade  = getGrade(overallPct);
+  var finalLabel  = getGradeLabel(overallPct);
+  var statusColor = finalStatus==='PASS'?'#16a34a':'#dc2626';
+  var logoUrl     = getLogoDataUrl();
+  var today       = nowStrShort(Date.now());
+
+  var examRows='';
+  for(i=0;i<results.length;i++){
+    var r=results[i];
+    var pStatus=r.percent>=db.passMark?'PASS':'FAIL';
+    var pColor =r.percent>=db.passMark?'#16a34a':'#dc2626';
+    examRows +=
+      '<tr>'+
+        '<td style="padding:9px 10px;border:1px solid #cbd5e1;text-align:left;">'+esc(r.examTitle)+'</td>'+
+        '<td style="padding:9px 10px;border:1px solid #cbd5e1;text-align:center;">'+nowStrShort(r.at)+'</td>'+
+        '<td style="padding:9px 10px;border:1px solid #cbd5e1;text-align:center;">'+r.total+'</td>'+
+        '<td style="padding:9px 10px;border:1px solid #cbd5e1;text-align:center;">'+r.score+'</td>'+
+        '<td style="padding:9px 10px;border:1px solid #cbd5e1;text-align:center;">'+r.percent+'%</td>'+
+        '<td style="padding:9px 10px;border:1px solid #cbd5e1;text-align:center;">'+getGrade(r.percent)+'</td>'+
+        '<td style="padding:9px 10px;border:1px solid #cbd5e1;text-align:center;color:'+pColor+';font-weight:bold;">'+pStatus+'</td>'+
+      '</tr>';
+  }
+
+  /* A4 PAGE FIX: Height set to 285mm (safe from A4 297mm to avoid blank 2nd page) */
+  var html =
+    '<div style="width:210mm;height:285mm;background:#fff;position:relative;margin:0 auto;padding:0;box-sizing:border-box;font-family:Arial,sans-serif;color:#000;overflow:hidden;">'+
+      '<div style="width:100%;height:100%;border:4px solid #b45309;box-sizing:border-box;padding:12mm;position:relative;overflow:hidden;display:flex;flex-direction:column;">'+
+        
+        '<div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);opacity:0.06;z-index:0;width:140mm;">'+
+          '<img src="'+logoUrl+'" style="width:100%;display:block;">'+
+        '</div>'+
+        
+        '<div style="position:relative;z-index:1;display:flex;flex-direction:column;flex:1;">'+
+
+          '<div style="text-align:center;border-bottom:2px solid #b45309;padding-bottom:10px;margin-bottom:20px;display:flex;align-items:center;justify-content:center;gap:15px;">'+
+            '<img src="'+logoUrl+'" style="height:72px;">'+
+            '<div>'+
+              '<h1 style="margin:0;color:#d97706;font-size:22px;font-weight:900;text-transform:uppercase;">Agradoot Vidyaniketan</h1>'+
+              '<p style="margin:3px 0;color:#d97706;font-size:12px;font-weight:700;">(Computer &amp; Skill Development Unit)</p>'+
+              '<p style="margin:2px 0;color:#475569;font-size:11.5px;font-weight:bold;">Saidpur Part IV (Mukam), Silchar- 788013</p>'+
+              '<p style="margin:0;color:#475569;font-size:11.5px;font-weight:bold;">Email - agradoot.education@gmail.com</p>'+
+            '</div>'+
+          '</div>'+
+
+          '<div style="text-align:center;margin-bottom:25px;">'+
+            '<h2 style="margin:0;font-size:18px;color:#0f172a;letter-spacing:3px;border-bottom:1px dashed #cbd5e1;display:inline-block;padding-bottom:5px;">MARKSHEET</h2>'+
+          '</div>'+
+
+          '<table style="width:100%;table-layout:fixed;border-collapse:collapse;margin-bottom:25px;font-size:13px;">'+
+            '<tr>'+
+              '<td style="padding:7px 0;width:50%;word-wrap:break-word;"><b>Student Name:</b> '+esc(student.name)+'</td>'+
+              '<td style="padding:7px 0;width:50%;word-wrap:break-word;"><b>Roll No:</b> '+esc(student.rollNo||'-')+'</td>'+
+            '</tr>'+
+            '<tr>'+
+              '<td style="padding:7px 0;word-wrap:break-word;"><b>Father\'s Name:</b> '+esc(student.fatherName||'-')+'</td>'+
+              '<td style="padding:7px 0;word-wrap:break-word;"><b>Reg No:</b> '+esc(student.regNo||'-')+'</td>'+
+            '</tr>'+
+            '<tr>'+
+              '<td style="padding:7px 0;word-wrap:break-word;"><b>Course:</b> '+esc(student.courseName||'-')+'</td>'+
+              '<td style="padding:7px 0;word-wrap:break-word;"><b>Session:</b> '+esc(student.session||'-')+'</td>'+
+            '</tr>'+
+          '</table>'+
+
+          '<table style="width:100%;border-collapse:collapse;font-size:12px;margin-bottom:30px;">'+
+            '<thead>'+
+              '<tr style="background:#b45309;color:#fff;">'+
+                '<th style="padding:10px;border:1px solid #b45309;text-align:left;">Exam</th>'+
+                '<th style="padding:10px;border:1px solid #b45309;">Date</th>'+
+                '<th style="padding:10px;border:1px solid #b45309;">Full Marks</th>'+
+                '<th style="padding:10px;border:1px solid #b45309;">Obtained</th>'+
+                '<th style="padding:10px;border:1px solid #b45309;">Percentage</th>'+
+                '<th style="padding:10px;border:1px solid #b45309;">Grade</th>'+
+                '<th style="padding:10px;border:1px solid #b45309;">Status</th>'+
+              '</tr>'+
+            '</thead>'+
+            '<tbody>'+examRows+'</tbody>'+
+          '</table>'+
+
+          '<div style="border:2px solid #b45309;border-radius:6px;overflow:hidden;margin-bottom:30px;">'+
+            '<div style="background:#b45309;color:#fff;padding:9px;text-align:center;font-size:13px;font-weight:bold;letter-spacing:2px;">FINAL RESULT</div>'+
+            '<table style="width:100%;border-collapse:collapse;text-align:center;">'+
+              '<tr>'+
+                '<td style="padding:15px 6px;border-right:1px solid #cbd5e1;">'+
+                  '<div style="font-size:10px;color:#64748b;text-transform:uppercase;letter-spacing:1px;margin-bottom:5px;">Grand Total</div>'+
+                  '<div style="font-size:17px;font-weight:900;color:#b45309;">'+grandObt+' / '+grandFull+'</div>'+
+                '</td>'+
+                '<td style="padding:15px 6px;border-right:1px solid #cbd5e1;">'+
+                  '<div style="font-size:10px;color:#64748b;text-transform:uppercase;letter-spacing:1px;margin-bottom:5px;">Percentage</div>'+
+                  '<div style="font-size:17px;font-weight:900;color:#b45309;">'+overallPct+'%</div>'+
+                '</td>'+
+                '<td style="padding:15px 6px;border-right:1px solid #cbd5e1;">'+
+                  '<div style="font-size:10px;color:#64748b;text-transform:uppercase;letter-spacing:1px;margin-bottom:5px;">Final Grade</div>'+
+                  '<div style="font-size:17px;font-weight:900;color:#b45309;">'+finalGrade+'</div>'+
+                  '<div style="font-size:10px;color:#64748b;margin-top:2px;">'+finalLabel+'</div>'+
+                '</td>'+
+                '<td style="padding:15px 6px;">'+
+                  '<div style="font-size:10px;color:#64748b;text-transform:uppercase;letter-spacing:1px;margin-bottom:5px;">Result Status</div>'+
+                  '<div style="font-size:17px;font-weight:900;color:'+statusColor+';">'+finalStatus+'</div>'+
+                '</td>'+
+              '</tr>'+
+            '</table>'+
+          '</div>'+
+
+          '<div style="text-align:right;font-size:12px;color:#64748b;margin-bottom:20px;">Date of Issue: <b>'+today+'</b></div>'+
+
+          '<div style="margin-top:auto;display:flex;justify-content:space-around;padding-top:20px;">'+
+            '<div style="text-align:center;border-top:1px solid #000;width:170px;padding-top:6px;font-size:12px;font-weight:bold;">Class Teacher</div>'+
+            '<div style="text-align:center;border-top:1px solid #000;width:170px;padding-top:6px;font-size:12px;font-weight:bold;">Controller of Examination</div>'+
+          '</div>'+
+
+        '</div>'+
+      '</div>'+
+    '</div>';
+
+  previewHTML = html;
+  previewFilename = 'Marksheet_'+student.name.replace(/\s+/g,'_')+'.pdf';
+  showMarksheetPreview();
+}
+
+function showMarksheetPreview(){
+  var existing=document.getElementById('marksheetPreviewModal');
+  if(existing) existing.remove();
+
+  var modal=document.createElement('div');
+  modal.className='modal';
+  modal.id='marksheetPreviewModal';
+  modal.style.padding='10px';
+  modal.innerHTML=
+    '<div style="background:#fff;border-radius:14px;max-width:880px;width:100%;max-height:96vh;display:flex;flex-direction:column;overflow:hidden;">'+
+      '<div style="padding:14px 18px;border-bottom:1px solid #e2e8f0;display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;background:#fffbeb;">'+
+        '<h3 style="margin:0;color:#b45309;font-size:16px;">📄 Marksheet Preview</h3>'+
+        '<div class="row" style="gap:8px;margin:0;">'+
+          '<button class="btn ok" data-act="download-preview-pdf">📥 Download PDF</button>'+
+          '<button class="btn ghost" data-act="close-preview">✕ Close</button>'+
+        '</div>'+
+      '</div>'+
+      '<div style="overflow:auto;padding:20px;background:#cbd5e1;display:flex;justify-content:center;align-items:flex-start;">'+
+        previewHTML+
+      '</div>'+
+    '</div>';
+
+  document.body.appendChild(modal);
+
+  modal.addEventListener('click',function(e){
+    if(e.target===modal) modal.remove();
+  });
+}
+
+function closePreview(){
+  var modal=document.getElementById('marksheetPreviewModal');
+  if(modal) modal.remove();
+  previewHTML=null;
+  previewFilename=null;
+}
+
+function downloadPreviewPDF(){
+  if(!previewHTML){ toast('Nothing to download','bad'); return; }
+  toast('Generating PDF...','ok');
+  var container=document.getElementById('pdf-container');
+  container.innerHTML=previewHTML;
+  
+  var opt={ 
+    margin: 0, 
+    filename: previewFilename, 
+    image: { type: 'jpeg', quality: 1 }, 
+    html2canvas: { scale: 2, useCORS: true, scrollY: 0 }, 
+    jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
+    pagebreak: { mode: 'avoid-all' }
+  };
+  
+  html2pdf().set(opt).from(container.firstElementChild).save().then(function(){ container.innerHTML=''; toast('Marksheet Downloaded!','ok'); }).catch(function(err){ console.error(err); toast('Error generating PDF.','bad'); });
+}
+
+/* ============================================================
+   EXAM ENGINE
+   ============================================================ */
+function viewExam(u){
+  if(!examState){
+    var h='<h2>Take Exam</h2><div class="card">'; var avail=[],i;
+    for(i=0;i<db.exams.length;i++){ if(db.exams[i].published) avail.push(db.exams[i]); }
+    if(!avail.length) h+='<p class="muted">Abhi koi exam available nahi hai.</p>';
+    for(i=0;i<avail.length;i++){ var e=avail[i]; var bank=countPool(e); h+='<div class="q"><b>'+esc(e.title)+'</b><div class="muted">'+esc(e.subject)+' • '+e.count+' questions • '+e.duration+' min</div><button class="btn sm" data-act="start" data-id="'+e.id+'" style="margin-top:8px"'+(bank<1?' disabled':'')+'>'+(bank<1?'Question bank empty':'Start Exam')+'</button></div>'; }
+    return h+'</div>';
+  }
+  var t='<div class="timer" id="timerBar"><span>⏱ <span id="timeLeft">--:--</span></span><span style="font-size:13px">'+esc(examState.title)+'</span></div><div class="card">';
+  for(var q=0;q<examState.questions.length;q++){ var qq=examState.questions[q]; var answered=(examState.answers[q]!==undefined); t+='<div class="q"><div class="row"><span class="badge b">Q'+(q+1)+'</span><span class="muted" id="mk-'+q+'">'+(answered?'Answered':'Not answered')+'</span></div><div style="font-weight:600;margin:8px 0">'+esc(qq.question)+'</div>';
+    for(var k=0;k<qq.options.length;k++){ var sel=(examState.answers[q]===k); t+='<label class="opt'+(sel?' sel':'')+'"><input type="radio" name="opt'+q+'" data-q="'+q+'" data-o="'+k+'"'+(sel?' checked':'')+'> '+String.fromCharCode(65+k)+'. '+esc(qq.options[k])+'</label>'; } t+='</div>'; }
+  t+='<div class="row"><button class="btn ok" data-act="submit">Submit Exam</button><button class="btn ghost" data-act="abort">Cancel</button><span class="muted" id="cnt">Attempted: '+Object.keys(examState.answers).length+'/'+examState.questions.length+'</span></div>';
+  return t+'</div>';
+}
+function startExam(id){
+  var e=find(db.exams,id); if(!e){ toast('Exam not found','bad'); return; }
+  var pool=poolFor(e).slice(); if(!pool.length){ toast('Question bank khali hai','bad'); return; }
+  shuffle(pool); var n=Math.min(e.count,pool.length); var qs=[];
+  for(var i=0;i<n;i++){ var q=pool[i]; var opts=[],k; for(k=0;k<q.options.length;k++){ opts.push({t:q.options[k],ok:(k===q.answer)}); } shuffle(opts); var texts=[],correct=-1; for(k=0;k<opts.length;k++){ texts.push(opts[k].t); if(opts[k].ok) correct=k; } qs.push({question:q.question,options:texts,correct:correct}); }
+  examState={ title:e.title, questions:qs, answers:{}, ends:Date.now()+e.duration*60000 };
+  view='exam'; render(); toast('Exam shuru — All the best!');
+}
+function startTimer(){
+  if(timer) clearInterval(timer);
+  function tick(){ if(!examState){ clearInterval(timer); timer=null; return; } var left=Math.floor((examState.ends-Date.now())/1000); if(left<=0){ clearInterval(timer); timer=null; submitExam(true); return; } var el=document.getElementById('timeLeft'); if(el) el.textContent=fmtTime(left); var bar=document.getElementById('timerBar'); if(bar) bar.className='timer'+(left<=60?' low':''); }
+  tick(); timer=setInterval(tick,1000);
+}
+function submitExam(auto){
+  if(!examState) return; var u=user(); if(!u) return;
+  var attempted=Object.keys(examState.answers).length; if(!auto && attempted<examState.questions.length){ if(!confirm('Kuch questions unanswered hain. Submit?')) return; }
+  var score=0, review=[], i;
+  for(i=0;i<examState.questions.length;i++){ var q=examState.questions[i]; var ch=(examState.answers[i]===undefined)?-1:examState.answers[i]; var ok=(ch===q.correct); if(ok) score++; review.push({question:q.question,options:q.options,chosen:ch,correct:q.correct,ok:ok}); }
+  var total=examState.questions.length; var percent=Math.round(score/total*100);
+  db.results.push({ id:uid('r'), examTitle:examState.title, studentId:u.id, studentName:u.name, score:score, total:total, percent:percent, at:Date.now(), review:review });
+  save(); examState=null; if(timer){ clearInterval(timer); timer=null; } view='myresults'; render(); toast('Submitted: '+score+'/'+total+' ('+percent+'%)', percent>=db.passMark?'ok':'bad');
+}
+function showReview(id){
+  var r=find(db.results,id); if(!r) return;
+  var h='<div class="modal"><div><h3>'+esc(r.examTitle)+'</h3><p class="muted">'+esc(r.studentName)+' • '+nowStr(r.at)+' • Score '+r.score+'/'+r.total+' ('+r.percent+'%)</p>';
+  for(var i=0;i<r.review.length;i++){ var q=r.review[i]; h+='<div class="q"><div class="row"><span class="badge b">Q'+(i+1)+'</span><span class="badge '+(q.ok?'g':'r')+'">'+(q.ok?'Correct':'Wrong')+'</span></div><div style="font-weight:600;margin:8px 0">'+esc(q.question)+'</div>'; for(var k=0;k<q.options.length;k++){ var cls='opt'; if(k===q.correct) cls+=' sel'; h+='<div class="'+cls+'">'+String.fromCharCode(65+k)+'. '+esc(q.options[k]); if(k===q.correct) h+=' <span class="badge g">Correct</span>'; if(k===q.chosen && !q.ok) h+=' <span class="badge r">Your answer</span>'; h+='</div>'; } h+='</div>'; }
+  h+='<button class="btn ghost" data-act="close">Close</button></div></div>';
+  var wrap=document.createElement('div'); wrap.innerHTML=h; var modal=wrap.firstChild; modal.addEventListener('click',function(e){ if(e.target===modal) modal.remove(); }); document.body.appendChild(modal);
+}
+
+/* ============================================================
+   EVENT HANDLERS
+   ============================================================ */
+document.addEventListener('click',function(e){
+  var t=e.target; if(!t || !t.closest) return;
+  var tab=t.closest('[data-role]'); if(tab && !tab.closest('form')){ loginRole=tab.getAttribute('data-role'); renderLogin(); return; }
+  var navBtn=t.closest('[data-nav]'); if(navBtn){ view=navBtn.getAttribute('data-nav'); dashFilter=''; render(); return; }
+  var el=t.closest('[data-act]'); if(!el) return;
+  var act=el.getAttribute('data-act'); var id=el.getAttribute('data-id');
+
+  if(act==='logout'){ logout(); view='dash'; render(); return; }
+  if(act==='close'){ var m=document.querySelector('.modal'); if(m) m.remove(); return; }
+
+  if(act==='full-marksheet'){ generateConsolidatedMarksheet(id); return; }
+  if(act==='consolidated-download'){ var sel=document.getElementById('consolidatedStudentSelect'); if(!sel||!sel.value){ toast('Student select karein','bad'); return; } generateConsolidatedMarksheet(sel.value); return; }
+  if(act==='download-preview-pdf'){ downloadPreviewPDF(); return; }
+  if(act==='close-preview'){ closePreview(); return; }
+
+  if(act==='edit-student'){ openEditStudent(id); return; }
+  if(act==='remove-logo'){ if(!confirm('Logo remove?')) return; db.logo=null; save(); render(); toast('Logo reset'); return; }
+  if(act==='toggle'){ var cu=user(); if(!cu||cu.role!=='admin') return; var x=find(db.users,id); if(x){ x.active=!x.active; save(); render(); toast('Status updated'); } return; }
+  if(act==='del'){ var cu2=user(); if(!cu2||cu2.role!=='admin') return; if(!confirm('User delete karna hai?')) return; db.users=db.users.filter(function(v){ return v.id!==id; }); save(); render(); toast('Deleted'); return; }
+  if(act==='del-q'){ if(!confirm('Question delete?')) return; db.questions=db.questions.filter(function(v){ return v.id!==id; }); save(); render(); toast('Deleted'); return; }
+  if(act==='del-e'){ if(!confirm('Exam delete?')) return; db.exams=db.exams.filter(function(v){ return v.id!==id; }); save(); render(); toast('Deleted'); return; }
+  if(act==='pub'){ var ex=find(db.exams,id); if(ex){ ex.published=!ex.published; save(); render(); toast(ex.published?'Published':'Unpublished'); } return; }
+  if(act==='start'){ startExam(id); return; }
+  if(act==='submit'){ submitExam(false); return; }
+  if(act==='abort'){ if(!confirm('Exam cancel?')) return; examState=null; view='exam'; render(); toast('Cancelled'); return; }
+  if(act==='review'){ showReview(id); return; }
+  if(act==='parse-pdf'){ parsePdfFile(); return; }
+  if(act==='confirm-import'){ if(!pendingImport.length) return; for(var i=0;i<pendingImport.length;i++){ db.questions.push({id:uid('q'),subject:pendingImport[i].subject,question:pendingImport[i].question,options:pendingImport[i].options,answer:pendingImport[i].answer}); } save(); var count=pendingImport.length; pendingImport=[]; renderImportPreview(); toast(count+' questions added!'); view='questions'; render(); return; }
+  if(act==='reset'){ if(!confirm('SAB DATA delete?')) return; if(!confirm('Final confirm?')) return; localStorage.removeItem(KEY); db=defaultDB(); save(); logout(); view='dash'; render(); toast('Reset done'); return; }
+});
+
+document.addEventListener('change',function(e){
+  if(e.target.id==='logoUpload'){ var file=e.target.files[0]; if(!file) return; if(file.size>1024*1024){ toast('Image 1MB se kam!','bad'); return; } var reader=new FileReader(); reader.onload=function(evt){ db.logo=evt.target.result; save(); render(); toast('Logo updated!'); }; reader.readAsDataURL(file); return; }
+  var t=e.target; if(!t || !t.getAttribute) return; if(t.type!=='radio') return; if(t.getAttribute('data-q')===null) return; if(!examState) return;
+  var qi=parseInt(t.getAttribute('data-q'),10), oi=parseInt(t.getAttribute('data-o'),10); examState.answers[qi]=oi;
+  var box=t.closest('.q'); if(box){ var labels=box.querySelectorAll('.opt'); for(var i=0;i<labels.length;i++) labels[i].classList.remove('sel'); if(t.parentNode) t.parentNode.classList.add('sel'); }
+  var mk=document.getElementById('mk-'+qi); if(mk) mk.textContent='Answered';
+  var cnt=document.getElementById('cnt'); if(cnt) cnt.textContent='Attempted: '+Object.keys(examState.answers).length+'/'+examState.questions.length;
+});
+
+document.addEventListener('submit',function(e){
+  var f=e.target; if(!f || !f.getAttribute || !f.getAttribute('data-form')) return; e.preventDefault();
+  var form=f.getAttribute('data-form'); var d={}, els=f.querySelectorAll('input,select,textarea');
+  for(var i=0;i<els.length;i++){ if(els[i].name) d[els[i].name]=els[i].value; }
+
+  if(form==='login'){
+    var uname=(d.u||'').trim().toLowerCase(); var found=null, j;
+    for(j=0;j<db.users.length;j++){ var x=db.users[j]; if(x.username.toLowerCase()===uname && x.password===d.p && x.role===loginRole){ found=x; break; } }
+    if(!found){ toast('Galat username / password / role','bad'); return; }
+    if(!found.active){ toast('Account blocked','bad'); return; }
+    login(found.id); view='dash'; render(); toast('Welcome, '+found.name);
+    return;
+  }
+
+  var cu=user(); if(!cu) return;
+
+  if(form==='add-teacher'){
+    var un=(d.username||'').trim(); if(!un){ toast('Username required','bad'); return; }
+    for(var a=0;a<db.users.length;a++){ if(db.users[a].username.toLowerCase()===un.toLowerCase()){ toast('Username exists','bad'); return; } }
+    db.users.push({id:uid('u'),role:'teacher',name:d.name,username:un,password:d.password,active:true});
+    save(); render(); toast('Teacher created'); return;
+  }
+
+  if(form==='add-student'){
+    var un2=(d.username||'').trim(); if(!un2){ toast('Username required','bad'); return; }
+    for(var b=0;b<db.users.length;b++){ if(db.users[b].username.toLowerCase()===un2.toLowerCase()){ toast('Username exists','bad'); return; } }
+    db.users.push({
+      id:uid('u'), role:'student',
+      name:d.name, fatherName:d.fatherName, motherName:d.motherName,
+      dob:d.dob, rollNo:d.rollNo, regNo:d.regNo,
+      courseName:d.courseName, session:d.session, admissionDate:d.admissionDate,
+      phone:d.phone||'',
+      username:un2, password:d.password, active:true
+    });
+    save(); render(); toast('Student created with full details'); return;
+  }
+
+  if(form==='edit-student'){
+    var sid=editingStudentId; var s=find(db.users,sid);
+    if(!s){ toast('Student not found','bad'); return; }
+    var un3=(d.username||'').trim(); if(!un3){ toast('Username required','bad'); return; }
+    for(var c=0;c<db.users.length;c++){ if(db.users[c].id!==sid && db.users[c].username.toLowerCase()===un3.toLowerCase()){ toast('Username taken','bad'); return; } }
+    s.name=d.name; s.fatherName=d.fatherName; s.motherName=d.motherName;
+    s.dob=d.dob; s.rollNo=d.rollNo; s.regNo=d.regNo;
+    s.courseName=d.courseName; s.session=d.session; s.admissionDate=d.admissionDate;
+    s.phone=d.phone||''; s.username=un3; s.password=d.password;
+    save();
+    var modal=document.getElementById('editStudentModal'); if(modal) modal.remove();
+    editingStudentId=null; render(); toast('Student updated'); return;
+  }
+
+  if(form==='add-q'){
+    var opts=[d.o0,d.o1,d.o2,d.o3].filter(function(v){ return v && String(v).trim()!==''; });
+    if(opts.length<2){ toast('Min 2 options chahiye','bad'); return; }
+    var ans=parseInt(d.ans,10); if(isNaN(ans)||ans<0||ans>=opts.length) ans=0;
+    db.questions.push({id:uid('q'),subject:(d.subject||'General').trim(),question:(d.question||'').trim(),options:opts,answer:ans});
+    save(); render(); toast('Question added'); return;
+  }
+  if(form==='add-e'){
+    db.exams.push({id:uid('e'),title:(d.title||'Untitled Exam').trim(),subject:d.subject||'All',count:Math.max(1,parseInt(d.count,10)||10),duration:Math.max(1,parseInt(d.duration,10)||20),published:false});
+    save(); render(); toast('Exam created — ab Publish karein'); return;
+  }
+  if(form==='settings'){ db.passMark=Math.max(1,Math.min(100,parseInt(d.passMark,10)||40)); save(); render(); toast('Saved'); return; }
+  if(form==='pass'){ var p=(d.password||'').trim(); if(p.length<4){ toast('Password chhota','bad'); return; } cu.password=p; save(); toast('Password updated'); return; }
+});
+
+if(window.pdfjsLib){ pdfjsLib.GlobalWorkerOptions.workerSrc='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js'; }
+render();
+</script>
+</body>
+</html>
